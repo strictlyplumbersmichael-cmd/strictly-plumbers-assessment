@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2026 Sale Tracker — Strictly Plumbers</title>
+<link rel="icon" type="image/webp" href="brand-assets/mascot-icon.webp">
 <style>
   :root {
-    --ink: #0f2742;
-    --muted: #5b6b7c;
-    --line: #e3e8ef;
-    --bg: #f4f6fa;
+    --ink: #0f0f12;
+    --muted: #3b434b;
+    --line: #e5e7eb;
+    --bg: #f4f4f4;
     --card: #ffffff;
-    --red: #d50000;
+    --red: #f21111;
+    --red-dark: #ac0000;
     --red-soft: #fdecec;
     --green: #0b7a53;
   }
@@ -34,7 +36,9 @@
     border-radius: 16px;
     padding: 20px 24px;
   }
-  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .brand-logo { width: 168px; height: auto; display: block; flex: 0 0 auto; }
+  .brand-copy { min-width: 0; }
   .mark {
     width: 46px; height: 46px; border-radius: 12px;
     background: var(--red);
@@ -42,7 +46,15 @@
     font-weight: 800; letter-spacing: -0.5px;
   }
   h1 { margin: 0; font-size: 22px; }
-  header p { margin: 4px 0 0; color: #b9c6d6; font-size: 13px; }
+  header p { margin: 4px 0 0; color: #c9c9c9; font-size: 13px; }
+  .header-side { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .mascot-badge {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--red);
+    box-shadow: 0 8px 22px rgba(242,17,17,.3);
+    overflow: hidden; flex: 0 0 auto; display: grid; place-items: center;
+  }
+  .mascot-badge img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
   button {
     font: inherit; border: 0; border-radius: 10px;
@@ -50,7 +62,7 @@
   }
   .btn-light { background: #fff; color: var(--ink); }
   .btn-ghost { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.28); }
-  .btn-light:hover { background: #eef3f9; }
+  .btn-light:hover { background: #f2f2f2; }
   .btn-ghost:hover { background: rgba(255,255,255,.2); }
   .stats {
     display: grid;
@@ -105,12 +117,12 @@
     border: 1px solid var(--line);
     border-radius: 14px;
     overflow: auto;
-    box-shadow: 0 8px 24px rgba(15,39,66,.06);
+    box-shadow: 0 8px 24px rgba(15,15,18,.06);
   }
   table { width: 100%; border-collapse: collapse; min-width: 1180px; }
   th {
     position: sticky; top: 0; z-index: 1;
-    background: #f8fafc;
+    background: #f7f7f7;
     text-align: left;
     font-size: 11px;
     text-transform: uppercase;
@@ -133,10 +145,10 @@
     font-size: 14px;
     white-space: nowrap;
   }
-  tbody tr:hover { background: #fbfcfe; }
+  tbody tr:hover { background: #fafafa; }
   tbody tr:last-child td { border-bottom: 0; }
   .name { font-weight: 600; }
-  td a { color: #1a5fb4; text-decoration: none; }
+  td a { color: var(--red-dark); text-decoration: none; }
   td a:hover { text-decoration: underline; }
   .phone { font-variant-numeric: tabular-nums; }
   .result-cell { min-width: 240px; white-space: normal; }
@@ -145,7 +157,7 @@
     padding: 8px 10px;
     border: 1px solid transparent;
     border-radius: 8px;
-    background: #f6f8fb;
+    background: #f6f6f6;
     font: inherit;
     color: var(--ink);
     cursor: pointer;
@@ -188,6 +200,9 @@
     .app { padding: 14px; }
     .stats { grid-template-columns: 1fr; }
     .saved { margin-left: 0; }
+    .brand-logo { width: 140px; }
+    .header-side { gap: 12px; }
+    .mascot-badge { width: 56px; height: 56px; }
   }
   @media print {
     body { background: #fff; }
@@ -205,21 +220,29 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: radial-gradient(circle at 20% 20%, #17395c 0, #0f2742 45%, #091a2c 100%);
+    background: radial-gradient(circle at 20% 20%, #3a0c0c 0, #120607 45%, #050505 100%);
   }
   .gate.hidden { display: none; }
   .gate-card {
     width: 100%;
     max-width: 390px;
-    background: #fff;
+    background: #111114;
+    border: 1px solid rgba(242,17,17,.35);
     border-radius: 18px;
     padding: 30px 28px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
     text-align: center;
   }
-  .gate-card .mark { margin: 0 auto 14px; }
-  .gate-card h2 { margin: 0 0 6px; font-size: 22px; color: var(--ink); }
-  .gate-card p { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+  .gate-mascot {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--red);
+    box-shadow: 0 8px 22px rgba(242,17,17,.35);
+    overflow: hidden; margin: 0 auto 14px; display: grid; place-items: center;
+  }
+  .gate-mascot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gate-logo { width: 200px; height: auto; display: block; margin: 0 auto 16px; }
+  .gate-card h2 { margin: 0 0 6px; font-size: 22px; color: #fff; }
+  .gate-card p { margin: 0 0 18px; color: #bdbdbd; font-size: 14px; }
   .gate-card input {
     width: 100%;
     padding: 13px 14px;
@@ -230,7 +253,7 @@
     font: inherit;
     margin-bottom: 12px;
   }
-  .gate-card input:focus { outline: 2px solid rgba(213,0,0,.22); border-color: var(--red); }
+  .gate-card input:focus { outline: 2px solid rgba(242,17,17,.28); border-color: var(--red); }
   .gate-card button {
     width: 100%;
     padding: 13px 14px;
@@ -239,7 +262,8 @@
     color: #fff;
     font-weight: 700;
   }
-  .gate-error { min-height: 18px; margin: 12px 0 0; color: var(--red); font-size: 13px; }
+  .gate-card button:hover { background: var(--red-dark); }
+  .gate-error { min-height: 18px; margin: 12px 0 0; color: #ffb3b3; font-size: 13px; }
   @media print { .gate { display: none !important; } }
 </style>
 </head>
@@ -247,17 +271,20 @@
 <div class="app">
   <header>
     <div class="brand">
-      <div class="mark">SP</div>
-      <div>
+      <img class="brand-logo" src="brand-assets/logo.png" alt="Strictly Plumbers">
+      <div class="brand-copy">
         <h1>2026 Sale Tracker</h1>
         <p id="subtitle">Plumbing Growth Strategy Call · 21 appointments</p>
       </div>
     </div>
-    <div class="actions">
-      <button class="btn-light" id="downloadBtn">Download CSV</button>
-      <button class="btn-ghost" id="copyBtn">Copy for Sheets</button>
-      <button class="btn-ghost" id="printBtn">Print</button>
-      <button class="btn-ghost" id="lockBtn">Lock</button>
+    <div class="header-side">
+      <div class="mascot-badge"><img src="brand-assets/mascot-icon.webp" alt="Tony, the Strictly Plumbers mascot"></div>
+      <div class="actions">
+        <button class="btn-light" id="downloadBtn">Download CSV</button>
+        <button class="btn-ghost" id="copyBtn">Copy for Sheets</button>
+        <button class="btn-ghost" id="printBtn">Print</button>
+        <button class="btn-ghost" id="lockBtn">Lock</button>
+      </div>
     </div>
   </header>
 
@@ -300,7 +327,8 @@
 
 <div class="gate" id="gate">
   <form class="gate-card" id="gateForm">
-    <div class="mark">SP</div>
+    <div class="gate-mascot"><img src="brand-assets/mascot-icon.webp" alt="Tony, the Strictly Plumbers mascot"></div>
+    <img class="gate-logo" src="brand-assets/logo.png" alt="Strictly Plumbers">
     <h2>2026 Sale Tracker</h2>
     <p>Enter the tracker password to unlock.</p>
     <input type="password" id="gatePassword" placeholder="Password" autocomplete="current-password" required>
